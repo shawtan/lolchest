@@ -1,9 +1,10 @@
+require('dotenv').config();
 var express = require('express');
 var app = express();
 
 var https = require('https')
 
-var api_key = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
+var api_key = process.env.LOL_API_KEY;
 
 var rank = ['S+', 'S', 'S-', 'A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-'];
 
@@ -13,7 +14,6 @@ app.get('/', function (req, res) {
 
 app.get('/user/:username', function (req, res) {
   var username = req.params.username;
-  console.log('username=' + username)
   getSummonerId(username, res)
 })
 
