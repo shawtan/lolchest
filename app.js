@@ -1,121 +1,191 @@
 require('dotenv').config();
 var express = require('express');
-var app = express();
-
+var app   = express();
+var path  = require("path");
 var https = require('https')
+var championRoles = require('./champion_roles.json')
 
 var api_key = process.env.LOL_API_KEY;
 
 var rank = ['S+', 'S', 'S-', 'A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-'];
+var roles = ['top', 'jungle', 'mid', 'bot', 'support'];
 
+var DEBUG = true;
+
+// app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', function (req, res) {
-  res.send('Hello World!');
+  res.sendFile(path.join(__dirname+ '/public/index.html'));
 });
 
-app.get('/user/:username', function (req, res) {
+app.get('/:region/:username/:role*?', function (req, res) {
+  res.header('Access-Control-Allow-Origin', '*');
+  var region = req.params.region;
   var username = req.params.username;
-  getSummonerId(username, res)
+  var role = req.params.role;
+  if (req.params.role == undefined) {   // || !(req.params.role in championRoles)
+    req.params.role = 'all';
+  }
+  console.log("region = " + region + " || user = " + username + " || role = " + role)
+  getSummonerId(req.params, res);
 })
+
 
 app.listen(8080, function () {
   console.log('Example app listening on port 8080!');
 });
 
-
-function getSummonerId(summoner_name, res) {
-  https.get('https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/'+summoner_name+'?api_key='+api_key,
+function makeRequest(url, success, error) {
+  https.get(url,
     (response) => {
       console.log('statusCode: ', response.statusCode);
       // console.log('headers: ', res.headers);
+      if (response.statusCode != 200) {
+        error({"error" : "status code " + response.statusCode});
+        return;
+      }
+
+      var data = '';
 
       response.on('data', (d) => {
-        d = JSON.parse(d);
-        getChampions({
-          summoner_id: d[summoner_name].id,
-          summoner_name: d[summoner_name].name,
-          }, res);
-      });
-
-    }).on('error', (e) => {
-      console.error(e);
-      res.json({error: e})
-    });
-}
-
-function getChampions(data, res) {
-  https.get('https://na.api.pvp.net/championmastery/location/NA1/player/'+data['summoner_id']+'/champions?api_key='+api_key,
-    (response) => {
-      console.log('statusCode: ', response.statusCode);
-      // console.log('headers: ', res.headers);
-
-      var champions = '';
-      response.on('data', (d) => {
-        champions += d;
+        data += d;
       });
 
       response.on('end', () => {
-
-        champions = JSON.parse(champions);
-        addChampionInfo({
-          summoner_id: data['summoner_id'],
-          summoner_name: data['summoner_name'],
-          champions: champions.filter(championHasChest)
-          }, res);
-      })
+        success(data);
+      });
 
     }).on('error', (e) => {
-      console.error(e);
-      res.json({error: e})
+      error({"error" : e});
     });
 }
 
-function championHasChest(championMastery) {
-  return !championMastery.chestGranted;
+
+function getSummonerId(params, res) {
+  var summoner_name = params.username;
+  var url = 'https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/'+summoner_name+'?api_key='+api_key;
+  makeRequest(url, 
+    (data) => {
+        data = JSON.parse(data);
+        getChampionMastery({
+          params: params,
+          summoner_id: data[summoner_name].id,
+          summoner_name: data[summoner_name].name,
+          }, res);
+    },
+    (error) => {
+      res.json(error);
+    });
+}
+
+function getChampionMastery(data, res) {
+  var url = 'https://na.api.pvp.net/championmastery/location/NA1/player/'+data['summoner_id']+'/champions?api_key='+api_key;
+    makeRequest(url, 
+    (mastery_info) => {
+        mastery_info = JSON.parse(mastery_info);
+        addChampionInfo({
+          params: data.params,
+          summoner_id: data['summoner_id'],
+          summoner_name: data['summoner_name'],
+          champions: mastery_info, 
+          mastery_info: mastery_info,
+          }, res);
+    },
+    (error) => {
+      res.json(error);
+    });
 }
 
 function addChampionInfo(data, res) {
-  https.get('https://global.api.pvp.net/api/lol/static-data/na/v1.2/champion?dataById=true&api_key='+api_key,
-    (response) => {
-      console.log('statusCode: ', response.statusCode);
-      // console.log('headers: ', res.headers);
-      var champlist = '';
-
-      response.on('data', (d) => {
-        // process.stdout.write(d);
-        champlist += d;
-      });
-      response.on('end', () => {
+  url = 'https://global.api.pvp.net/api/lol/static-data/na/v1.2/champion?dataById=false&champData=image&api_key='+api_key;
+  makeRequest(url, 
+    (champlist) => {
         champlist = JSON.parse(champlist).data;
-        data.champions = data.champions.map(function(c) {return parseChampionInfo(c, champlist);});
+        var champArray = [];
+        for (var championInfo in champlist) {
+          champArray.push(combineChampionInfo(champlist[championInfo],data.mastery_info));
+        }
+        data.champions = champArray;
         data.champions.sort(compareChampion);
-        console.log('Champion count: ' + data.champions.length)
-        res.json(data);
-      });
-
-    }).on('error', (e) => {
-      console.error(e);
-      res.json({error: e})
+        filterChamptions(data, res);
+    },
+    (error) => {
+      res.json(error);
     });
 }
 
-function compareChampion(c1, c2) {
-  var score1 = c1.champion_score;
-  var score2 = c2.champion_score;
-  if (score2 == null) return -1;
-  if (score1 == null) return 1;
-  return rank.indexOf(score1) - rank.indexOf(score2);
+function filterChamptions(data, res) {
+  data.has_chest = data.champions.filter(championHasChest);
+  data.recommended = data.champions.filter(championHasNoChest).filter(function(c) {return championRoleMatches(c, data.params.role);}).slice(0,5);
+  displayData(data, res);
+}
+
+function displayData(data, res) {
+  if (DEBUG) {
+    data.has_chest = data.has_chest.map(function (c) {return [c.name, c.highest_grade, c.champion_points]});
+    data.recommended = data.recommended.map(function (c) {return [c.name, c.highest_grade, c.champion_points]});
+  }
+  res.json({
+    "summoner_name":  data.summoner_name,
+    "summoner_id":    data.summoner_id,
+    "has_chest":      data.has_chest,
+    "recommended":    data.recommended,
+  })
 
 }
 
+function combineChampionInfo(championInfo, championMasteryList) {
+  var championMastery = championMasteryList.find(function(c) {
+    return c.championId == championInfo.id;
+  });
 
-function parseChampionInfo(championMastery, championList) {
-  // return championMastery;
-  // return championList[championMastery.championId+''].name;
-  return {
-    'champion_name': championList[championMastery.championId+''].name,
-    'champion_title': championList[championMastery.championId].title,
-    'champion_score': championMastery.highestGrade
-  };
+  var result = {
+      'name'          : championInfo.name,
+      'title'         : championInfo.title,
+      'key'           : championInfo.key,
+      'highest_grade' : null,
+      'champion_points': 0,
+      'image'         : championInfo.image,
+      'has_chest'     : false,
+      'id'            : championInfo.id
+    };
+
+  if (championMastery != undefined) {
+      result.highest_grade    = championMastery.highestGrade;
+      result.champion_points  = championMastery.championPoints;
+      result.has_chest        = championMastery.chestGranted;
+  }
+  return result;
+}
+
+function championHasChest(championMastery) {
+  return championMastery.has_chest;
+}
+function championHasNoChest(championMastery) {
+  return !championHasChest(championMastery);
+}
+function championRoleMatches(champion, role) {
+  return role == 'all' || (role in championRoles && championRoles[role].indexOf(champion.key) != -1);
+}
+
+function compareChampion(c1, c2) {
+  // return c2.champion_points - c1.champion_points;
+  var score1 = c1.highest_grade;
+  var score2 = c2.highest_grade;
+  if (score1 == null && score2 == null || rank.indexOf(score1) == rank.indexOf(score2)) {
+    // Compare mastery points
+    if (c1.champion_points == c2.champion_points) {
+      // Compare win rates
+      return 0;
+    } else {
+      return c2.champion_points - c1.champion_points;
+    }
+  } else if (score2 == null) {
+    return -1;
+  } else if (score1 == null) {
+    return 1;
+  } else {
+    return rank.indexOf(score1) - rank.indexOf(score2);
+  }
 }
 
 /*

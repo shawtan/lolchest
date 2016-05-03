@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+<head>
+    <title>
+	    LOL Chest
+    </title>
+    <!-- <link type="text/css" rel="stylesheet" href="style.css"/> -->
+</head>
+<body>
+    <div class="container">
+		<form onsubmit="loadPlayer(); return false;">
+			<div class="form-inline">
+				<div class="form-group" id="summonerInputGroup">
+					<label class="sr-only" for="summonerInput">Summoner Name</label>
+					<input class="form-control input-lg" type="text" id="summonerInput" placeholder="Summoner Name" method="GET" value="">
+				</div>
+				<label>Region:
+					<select id="regionSelect" class="form-control input-lg">
+					  <option value="NA">NA</option>
+					  <option value="EUW">EUW</option>
+					  <option value="EUNE">EUNE</option>
+					  <option value="BR">BR</option>
+					  <option value="TR">TR</option>
+					  <option value="RU">RU</option>
+					  <option value="LAN">LAN</option>
+					  <option value="LAS">LAS</option>
+					  <option value="OCE">OCE</option>
+					  <option value="KR">KR</option>
+					</select>
+				</label>
+				<label>Role:
+					<select id="roleSelect" class="form-control input-lg">
+					  <option value="all">All</option>
+					  <option value="top">Top</option>
+					  <option value="jungle">Jungle</option>
+					  <option value="mid">Mid</option>
+					  <option value="bot">Bot</option>
+					  <option value="support">Support</option>
+					</select>
+				</label>
+				<input type="button" id="summonerGo" class="btn btn-primary btn-lg" value="Go!" onclick="loadPlayer()">
+				
+			</div>
+		</form>
+		<div>
+			Result:
+			<div id="result">
+
+			</div>
+		</div>
+	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+	<script src="public/script.js"></script>
+	<script>
+		// $('#result').html("ASdfasdf");
+
+		// function loadPlayer() {
+		// 	$.get('http://127.0.0.1:8080/na/cookiesncreme', 
+		// 		function (data, status) {
+		// 			console.log(data);
+		// 			$('#result').html(data.summoner_name + " " + data.summoner_id + ' has ' + data.has_chest.length + ' chests');
+
+		// 		});
+		// }
+	</script>
+</body>
+</html>
