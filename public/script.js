@@ -1,3 +1,0 @@
-function loadPlayer() {
-	alert("ASDfadf");
-}

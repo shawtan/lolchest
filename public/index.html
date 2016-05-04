@@ -4,10 +4,17 @@
     <title>
 	    LOL Chest
     </title>
-    <!-- <link type="text/css" rel="stylesheet" href="style.css"/> -->
+
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="css/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/stylesheet.css">
 </head>
 <body>
     <div class="container">
+		<div class="row">
+			<div id="summonerLoader" class="col-lg-12">
+				<div class="jumbotron">
+					<h1>Find recommended champions to get a chest in:</h1>
 		<form onsubmit="loadPlayer(); return false;">
 			<div class="form-inline">
 				<div class="form-group" id="summonerInputGroup">
@@ -43,25 +50,25 @@
 			</div>
 		</form>
 		<div>
-			Result:
-			<div id="result">
+			<div class="col-lg-12 hidden" id="ownedChamps">
+				<h1>Champions that you have already gotten a chest in.</h1>
+				<ul class="portraitsContainer" id="ownedChampsContainer">
 
+				</ul>
+			</div>
+
+			<div class="col-lg-12 hidden" id="recChamps">
+				<h1>Recommended champions for your role</h1>
+				<ul class="portraitsContainer" id="recChampsContainer">
+
+				</ul>
 			</div>
 		</div>
+			</div>
+			</div>
+	</div>
 	</div>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
-	<script src="public/script.js"></script>
-	<script>
-		// $('#result').html("ASdfasdf");
-
-		// function loadPlayer() {
-		// 	$.get('http://127.0.0.1:8080/na/cookiesncreme', 
-		// 		function (data, status) {
-		// 			console.log(data);
-		// 			$('#result').html(data.summoner_name + " " + data.summoner_id + ' has ' + data.has_chest.length + ' chests');
-
-		// 		});
-		// }
-	</script>
+	<script src="js/script.js"></script>
 </body>
 </html>

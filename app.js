@@ -10,14 +10,14 @@ var api_key = process.env.LOL_API_KEY;
 var rank = ['S+', 'S', 'S-', 'A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-'];
 var roles = ['top', 'jungle', 'mid', 'bot', 'support'];
 
-var DEBUG = true;
+var DEBUG = false;
 
-// app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname+ '/public/index.html'));
 });
 
-app.get('/:region/:username/:role*?', function (req, res) {
+app.get('/info/:region/:username/:role*?', function (req, res) {
   res.header('Access-Control-Allow-Origin', '*');
   var region = req.params.region;
   var username = req.params.username;
