@@ -6,6 +6,7 @@ var https = require('https')
 var championRoles = require('./champion_roles.json')
 
 var api_key = process.env.LOL_API_KEY;
+var port = process.env.PORT;
 
 var rank = ['S+', 'S', 'S-', 'A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-'];
 var roles = ['top', 'jungle', 'mid', 'bot', 'support'];
@@ -30,8 +31,8 @@ app.get('/info/:region/:username/:role*?', function (req, res) {
 })
 
 
-app.listen(8080, function () {
-  console.log('Example app listening on port 8080!');
+app.listen(port, function () {
+  console.log('App started listening on port ' + port);
 });
 
 function makeRequest(url, success, error) {

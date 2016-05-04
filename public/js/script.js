@@ -1,7 +1,7 @@
 function loadPlayer() {
 	var region = $('#regionSelect').val();
 	var username = $('#summonerInput').val();
-	username = username.replace(' ', '');
+	username = username.replace(/ /g, '');
 	var role = $('#roleSelect').val();
 	var url = '/info/'+region+'/'+username+'/'+role;
 	console.log("URL = " + url);
