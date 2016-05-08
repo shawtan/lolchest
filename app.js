@@ -1,7 +1,7 @@
 var express       = require('express');
 var app           = express();
 var path          = require("path");
-var https         = require('https')
+var https         = require('https');
 
 // Load environment variables
 require('dotenv').config();
@@ -9,10 +9,12 @@ var api_key = process.env.LOL_API_KEY;
 var port    = process.env.PORT;
 
 // Defined values
-var rank  = ['S+', 'S', 'S-', 'A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-'];
+var rank  = ['S+', 'S', 'S-', 'A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-', 'Unknown'];
 var roles = ['top', 'jungle', 'mid', 'bot', 'support'];
-var championRoles = require('./champion_roles.json')
+var championRoles = require('./champion_roles.json');
+var regions = require('./regions.json');
 
+var NUMBER_CHAMPS_TO_RECOMMEND = 6;
 var DEBUG = false;
 
 // Main page
@@ -27,7 +29,7 @@ app.get('/info/:region/:username/:role*?', function (req, res) {
   if (req.params.role == undefined) {
     req.params.role = 'all';
   }
-  console.log('Info request with params ' + req.params);
+  console.log('Info request for ' + req.params.username + ' in ' + req.params.region);
   getSummonerId(req.params, res);
 })
 
@@ -69,7 +71,8 @@ function makeRequest(url, success, error) {
 
 function getSummonerId(params, res) {
   var summoner_name = params.username;
-  var url = 'https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/'+summoner_name+'?api_key='+api_key;
+  var region = params.region;
+  var url = 'https://'+region+'.api.pvp.net/api/lol/'+region+'/v1.4/summoner/by-name/'+summoner_name+'?api_key='+api_key;
   makeRequest(url, 
     (data) => {
         data = JSON.parse(data);
@@ -85,7 +88,8 @@ function getSummonerId(params, res) {
 }
 
 function getChampionMastery(data, res) {
-  var url = 'https://na.api.pvp.net/championmastery/location/NA1/player/'+data['summoner_id']+'/champions?api_key='+api_key;
+  var region = data.params.region;
+  var url = 'https://'+region+'.api.pvp.net/championmastery/location/'+regions[region]+'/player/'+data['summoner_id']+'/champions?api_key='+api_key;
     makeRequest(url, 
     (mastery_info) => {
         mastery_info = JSON.parse(mastery_info);
@@ -103,7 +107,8 @@ function getChampionMastery(data, res) {
 }
 
 function addChampionInfo(data, res) {
-  url = 'https://global.api.pvp.net/api/lol/static-data/na/v1.2/champion?dataById=false&champData=image&api_key='+api_key;
+  var region = data.params.region.toLowerCase();
+  url = 'https://global.api.pvp.net/api/lol/static-data/'+region+'/v1.2/champion?dataById=false&champData=image&api_key='+api_key;
   makeRequest(url, 
     (champlist) => {
         champlist = JSON.parse(champlist).data;
@@ -122,7 +127,7 @@ function addChampionInfo(data, res) {
 
 function filterChamptions(data, res) {
   data.has_chest = data.champions.filter(championHasChest);
-  data.recommended = data.champions.filter(championHasNoChest).filter(function(c) {return championRoleMatches(c, data.params.role);}).slice(0,5);
+  data.recommended = data.champions.filter(championHasNoChest).filter(function(c) {return championRoleMatches(c, data.params.role);}).slice(0,NUMBER_CHAMPS_TO_RECOMMEND);
   displayData(data, res);
 }
 
@@ -155,7 +160,7 @@ function combineChampionInfo(championInfo, championMasteryList) {
       'name'          : championInfo.name,
       'title'         : championInfo.title,
       'key'           : championInfo.key,
-      'highest_grade' : null,
+      'highest_grade' : "Unknown",
       'champion_points': 0,
       'image'         : championInfo.image,
       'has_chest'     : false,
@@ -163,9 +168,15 @@ function combineChampionInfo(championInfo, championMasteryList) {
     };
 
   if (championMastery != undefined) {
+    if (championMastery.highestGrade !== undefined) {
       result.highest_grade    = championMastery.highestGrade;
+    }
+    if (championMastery.championPoints != undefined) {
       result.champion_points  = championMastery.championPoints;
+    }
+    if (championMastery.chestGranted != undefined) {
       result.has_chest        = championMastery.chestGranted;
+    }
   }
   return result;
 }

@@ -2,7 +2,7 @@ body {
     background-color: #000;
     color: rgb(240,230,200);
 	font-family: 'Dosis', sans-serif;
-	font-size: 120%;
+    padding-bottom: 50px;
 }
 
 .container {
@@ -13,14 +13,6 @@ body {
 
 .logo img {
 	width: 900px;
-	/*height: 300px;*/
-/*	background-position: center center;
-	background-repeat: no-repeat;
-	overflow: hidden;
-*/}
-
-.hidden {
-	display: none;
 }
 
 .summonerInput {
@@ -29,6 +21,7 @@ body {
 	margin: 20px;
 	padding: 20px;
 	border-radius: 5px;
+	font-size: 120%;
 }
 
 .summonerInput input[type="text"]{
@@ -42,11 +35,9 @@ body {
 }
 
 .summonerInput select {
-
-	display: inline-block;
 	margin-left: 5px;
 	padding: 15px;
-	height: auto;
+	height: 3em;
 	width: 18%;
 }
 
@@ -55,19 +46,56 @@ body {
 	padding: 15px;
 }
 
-.results {
-	/*margin: auto;*/
-	width: 100%;
-	display: inline-block;
-	/*margin: 20px;*/
-	padding: 20px;
-	border-radius: 20px;
-    text-align: center;
-
+.summonerInput div.error {
+	background-color: #D42C2C;
+	color: #ffffff;
+	margin-top: 10px;
+	padding: 5px;
+	text-align: center;
 }
 
-.portraitsContainer {
-	padding:auto;
+.results {
+	width: 100%;
+	display: inline-block;
+	border-radius: 20px;
+    text-align: center;
+}
+
+.championSplash {
+	position: relative;
+	padding: 0 50px;
+}
+
+.championSplash img{
+	max-width: 100%;
+	height: auto;
+	padding:1px;
+	border:1px solid #e8e9eb;
+}
+
+.championSplash div {
+   position: absolute; 
+   top: 50px; 
+   left: 100px; 
+   width: 100%; 
+   text-align: left;
+   color: #ffffff;
+   text-shadow: 2px 2px #000;
+}
+
+span.championName{
+   font-size: 400%;
+   display: inline-block;
+}
+
+#recChampsContainer {
+	width: 610px;
+	margin: auto;
+}
+
+div.portraitsContainer {
+	/*display: inline-block;*/
+	padding: auto;
 }
 
 .portraitsContainer li{
@@ -82,8 +110,23 @@ body {
 	display: inline;
 }
 
+.portraitsContainer img {
+	max-width: 100%;
+	height: auto;
+}
+
+#ownedChampsContainer li {
+
+	height: 80px;
+	width: 80px;
+}
+
 .portraitsContainer li:hover span.championGrade {
   opacity: 1;
+}
+
+.championProfile span{
+	float:left;
 }
 
 span.championGrade {

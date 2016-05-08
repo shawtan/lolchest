@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>
-		LOL Chest
+		LOL Chest Finder
 	</title>
 	<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
 	<link href='https://fonts.googleapis.com/css?family=Dosis' rel='stylesheet' type='text/css'>
@@ -46,22 +46,25 @@
 				<button type="submit" class="pure-button pure-button-primary" onclick="loadPlayer()">What champion should I get a chest with?</button>
 				<!-- <input type="button" id="summonerGo" class="btn" value="Go!" onclick="loadPlayer()"> -->
 			</form>
+			<div class="error hidden" id="formError">ERROR: adfasdf</div>
 		</div>
 
 
 		<div class="results">
 
 			<div class="hidden" id="recChamps">
-				<h1>Recommended champions for you</h1>
+				<h1>You should try</h1>
+				<div class="championSplash">
+				</div>
+				<h2>Other champions you are good at</h2>
 				<ul class="portraitsContainer" id="recChampsContainer">
-
 				</ul>
 			</div>
 		</div>
 		<div class="results">
 
 			<div class="hidden" id="ownedChamps">
-				<h1>Champions that you have received chests for</h1>
+				<h1>Champions that you have received chests for this season</h1>
 				<ul class="portraitsContainer" id="ownedChampsContainer">
 
 				</ul>
