@@ -44,7 +44,7 @@ Preforms a GET request to the url specified and calls success or error with the 
 function makeRequest(url, success, error) {
   https.get(url,
     (response) => {
-      console.log('statusCode: ', response.statusCode);
+      // console.log('statusCode: ', response.statusCode);
       // console.log('headers: ', res.headers);
       if (response.statusCode != 200) {
         error({"error" : "status code " + response.statusCode});

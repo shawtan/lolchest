@@ -6,13 +6,9 @@ function loadPlayer() {
 	username = username.replace(/ /g, '');
 	var role = $('#roleSelect').val();
 	var url = '/info/'+region+'/'+username+'/'+role;
-	console.log("URL = " + url);
 	$.get(url, 
 		function (data, status) {
-			console.log(data);
-
 			if (data.error != undefined) {
-				console.log('error = ' + data.error);
 				$('#formError').html('An error has occured. ('+data.error+')');
 				$('#formError').removeClass('hidden');
 				return;	
