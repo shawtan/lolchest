@@ -9,7 +9,7 @@ var api_key = process.env.LOL_API_KEY;
 var port    = process.env.PORT;
 
 // Defined values
-var rank  = ['S+', 'S', 'S-', 'A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-', 'Unknown'];
+var rank  = ['S+', 'S', 'S-', 'A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-', 'No Rank'];
 var roles = ['top', 'jungle', 'mid', 'bot', 'support'];
 var championRoles = require('./champion_roles.json');
 var regions = require('./regions.json');
@@ -162,7 +162,7 @@ function combineChampionInfo(championInfo, championMasteryList) {
       'name'          : championInfo.name,
       'title'         : championInfo.title,
       'key'           : championInfo.key,
-      'highest_grade' : "Unknown",
+      'highest_grade' : "No Rank",
       'champion_points': 0,
       'image'         : championInfo.image,
       'has_chest'     : false,

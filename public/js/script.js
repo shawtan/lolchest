@@ -1,4 +1,8 @@
+
+var querying = false; 	// Prevents users spamming the search button
 function loadPlayer() {
+	if (querying) return;
+
 	clearPage();
 
 	var region = $('#regionSelect').val();
@@ -6,8 +10,10 @@ function loadPlayer() {
 	username = username.replace(/ /g, '');
 	var role = $('#roleSelect').val();
 	var url = '/info/'+region+'/'+username+'/'+role;
+	querying = true;
 	$.get(url, 
 		function (data, status) {
+			querying = false;
 			if (data.error != undefined) {
 				$('#formError').html('An error has occured. ' + clarifyError(data.error));
 				$('#formError').removeClass('hidden');
@@ -33,11 +39,11 @@ function loadPlayer() {
 
 function clarifyError(error) {
 	console.log('Request to Riot servers has encountered error ' + error);
-	if (error.contains('404')) {
+	if (error.indexOf('404') !== -1) {
 		return 'Summoner not found!';
-	} else if (error.contains('500')) {
+	} else if (error.indexOf('500') !== -1) {
 		return 'Something bad happened!';
-	} else if (error.contains('429')) {
+	} else if (error.indexOf('429') !== -1) {
 		return 'Please try again later.';
 	}
 	return "";

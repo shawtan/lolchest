@@ -1,6 +1,7 @@
 body {
 	background-color: #000;
-	color: rgb(240,230,200);
+	/*color: rgb(240,230,200);*/
+	color: #e8e9eb;
 	font-family: 'Dosis', sans-serif;
 	padding-bottom: 50px;
 }
@@ -24,7 +25,7 @@ body {
 
 .icon-chest {
 	max-width: 40px;
-	width: 15%;
+	width: 10%;
 	height: auto;
 	position: relative;
 	padding: 0 15px 0 5px;
@@ -36,7 +37,7 @@ body {
 	color: rgb(9,26,70);
 	margin: 20px;
 	padding: 20px;
-	border-radius: 5px;
+	/*border-radius: 5px;*/
 	font-size: 120%;
 }
 
@@ -54,9 +55,11 @@ body {
 .summonerInput select {
 	padding: 15px 0;
 	height: 3em;
-	width: 19%;
+	width: 20%;
 	text-align: center;
 	font-size: 120%;
+	float: right;
+	background-color: #e8e9eb;
 }
 
 .summonerInput button {
@@ -67,7 +70,7 @@ body {
 
 .summonerInput div.error {
 	background-color: #D42C2C;
-	color: #ffffff;
+	color: #e8e9eb;
 	margin-top: 10px;
 	padding: 5px;
 	text-align: center;
@@ -83,10 +86,12 @@ body {
 	.summonerInput input[type="text"]{
 		padding: 5px 0;
 		font-size: 150%;
+		width: 40%;
 	}
 	.summonerInput select {
 		padding: 5px 0;
 		font-size: 150%;
+		width: 30%;
 	}
 	.summonerInput button {
 		padding: 5px;
@@ -119,12 +124,13 @@ body {
 	left: 50px; 
 	text-align: left;
 	color: #ffffff;
-	text-shadow: 2px 2px #000;
+	text-shadow: 1px 1px #000;
 }
 
 .championSplash span.championName {
 	font-size: 400%;
 	display: inline-block;
+	text-shadow: 2px 2px #000;
 }
 
 @media (max-width: 600px) {
@@ -170,7 +176,6 @@ div.championPortrait:hover span.championGrade, div.championPortrait:focus span.c
 }
 
 span.championGrade {
-	color: white;
 	text-align: center;
 	top: 50%;
 	-ms-transform: translateY(-50%);
