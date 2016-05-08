@@ -13,11 +13,11 @@ Chest Finder recommends champions that you can get a chest in based on your mast
 # Technical Overview
 The purpose of our app is to provide recommended champions with the highest probability of getting a chest in, as well as display all the champions that have already received a chest in.
 
-The app is built on **Node Js**. We chose Node Js because it does not take a lot of code to get started. We did not need any databases so we chose not to use Ruby on Rails. 
+The app is built on **Node.js**. We chose Node.js because it does not take a lot of code to get started. We did not need any databases so we chose not to use Ruby on Rails. 
 
 We used **Express** because is a minimal and flexible Node.js web application framework that allows us to program the server side.
 
-We stored static data in JSON files. We saved the data in JSON files because Node Js has built in support for JSON.
+We stored static data in JSON files. We saved the data in JSON files because Node.js has built in support for JSON.
 
 `app.js` contains the express code for our back end server.  
 
@@ -25,17 +25,17 @@ We stored static data in JSON files. We saved the data in JSON files because Nod
 
 ## Project Architecture
 ### Static JSON Files
-`champion_roles.json` We identified the positions of all the champions and saved it in a json. 
+`champion_roles.json` Declares all the champions by role. 
 
-`package.json`
+`regions.json` Declares the regions.
 
 ### app.js 
 
-`getSummonerId` Gets the *summoner_id* based on the *summoner name* by calling Riot's summoner API.
+`getSummonerId` Gets the *summoner_id* based on the *summoner name* by calling **Riot's summoner API.**
 
-`getChampionMastery` Gets the **champion mastery** score and grade based on the summoner Id by calling Riot's champion mastery API. 
+`getChampionMastery` Gets the **champion mastery** score and grade based on the summoner Id by calling **Riot's champion mastery API.** 
 
-`addChampionInfo` Gets all the champions that exist in the game from Riot's static Api.
+`addChampionInfo` Gets all the champions that exist in the game from [Riot's static Api.](https://developer.riotgames.com/docs/static-data)
 
 `filterChampions` Parses the user's **champion mastery** information to identify champions that they have preformed well on but have not recieved a chest for yet this season. Factors for recommending a champion are the highest rank they have recieved on the champion, and the amount of mastery points they have on the champion. This is further narrowed down by role. It also identifies champions that they have received a chest in.
 
@@ -75,14 +75,25 @@ We published our web application on Heroku at [Chest Finder.](https://ancient-fa
 ## Prerequisite
 Get an API key from the [Riot Games Developer](https://developer.riotgames.com) site.
 
+Download and Install Node.js [here.](https://nodejs.org/en/)
 
 ## Configuration
 Define the `RIOT_API_KEY` environment variable to be your Riot API key.
 
+Define your `PORT` environment variable.
+
+Install dependencies
+
+    npm install
 
 ## Build
-To build the server, run
+Build the server
     
     node start
   	
-#Challenges
+You will be able to see the completed project at localhost:PORT.
+
+# Challenges
+It was difficult for us to layout and display all the information in a user intuitive way using CSS. We were able to layout everything accordingly. The end result is a polished product that we are extremely proud of.
+
+This was our first project where we used Node.js and it was an excellent learning experience. We found that it was extremely easy to get an app running quickly. 
