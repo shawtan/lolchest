@@ -1,72 +1,72 @@
 <!doctype html>
 <html>
 <head>
-    <title>
-	    LOL Chest
-    </title>
-
-	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="css/bootstrap/css/bootstrap.min.css">
+	<title>
+		LOL Chest
+	</title>
+	<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+	<link href='https://fonts.googleapis.com/css?family=Dosis' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="css/stylesheet.css">
 </head>
 <body>
-    <div class="container">
-		<div class="row">
-			<div id="summonerLoader" class="col-lg-12">
-				<div class="jumbotron">
-					<h1>Find recommended champions to get a chest in:</h1>
-		<form onsubmit="loadPlayer(); return false;">
-			<div class="form-inline">
-				<div class="form-group" id="summonerInputGroup">
-					<label class="sr-only" for="summonerInput">Summoner Name</label>
-					<input class="form-control input-lg" type="text" id="summonerInput" placeholder="Summoner Name" method="GET" value="">
-				</div>
-				<label>Region:
-					<select id="regionSelect" class="form-control input-lg">
-					  <option value="NA">NA</option>
-					  <option value="EUW">EUW</option>
-					  <option value="EUNE">EUNE</option>
-					  <option value="BR">BR</option>
-					  <option value="TR">TR</option>
-					  <option value="RU">RU</option>
-					  <option value="LAN">LAN</option>
-					  <option value="LAS">LAS</option>
-					  <option value="OCE">OCE</option>
-					  <option value="KR">KR</option>
-					</select>
-				</label>
-				<label>Role:
-					<select id="roleSelect" class="form-control input-lg">
-					  <option value="all">All</option>
-					  <option value="top">Top</option>
-					  <option value="jungle">Jungle</option>
-					  <option value="mid">Mid</option>
-					  <option value="bot">Bot</option>
-					  <option value="support">Support</option>
-					</select>
-				</label>
-				<input type="button" id="summonerGo" class="btn btn-primary btn-lg" value="Go!" onclick="loadPlayer()">
+	<div class="container">
+		<div class="logo">
+			<img src="rsc/banner.jpg" alt="Chest Finder">
+			<!-- <h1>LOL Chest</h1> -->
+		</div>
+		<div class='summonerInput'>
+			<!-- <h2>Find a champion to get your chest with</h2> -->
+			<form class="pure-form" onsubmit="loadPlayer(); return false;">
 				
-			</div>
-		</form>
-		<div>
-			<div class="col-lg-12 hidden" id="ownedChamps">
-				<h1>Champions that you have already gotten a chest in.</h1>
-				<ul class="portraitsContainer" id="ownedChampsContainer">
+				<div>
+					<!-- <label for="summonerName">Summoner Name</label> -->
+					<input type="text" id="summonerName" placeholder="Summoner Name" value="">
 
-				</ul>
-			</div>
+					<select id="regionSelect">
+						<option value="NA">NA</option>
+						<option value="EUW">EUW</option>
+						<option value="EUNE">EUNE</option>
+						<option value="BR">BR</option>
+						<option value="TR">TR</option>
+						<option value="RU">RU</option>
+						<option value="LAN">LAN</option>
+						<option value="LAS">LAS</option>
+						<option value="OCE">OCE</option>
+						<option value="KR">KR</option>
+					</select>
+					<select id="roleSelect">
+						<option value="all">All Roles</option>
+						<option value="top">Top</option>
+						<option value="jungle">Jungle</option>
+						<option value="mid">Mid</option>
+						<option value="bot">Bot</option>
+						<option value="support">Support</option>
+					</select>
+				</div>
+				<button type="submit" class="pure-button pure-button-primary" onclick="loadPlayer()">What champion should I get a chest with?</button>
+				<!-- <input type="button" id="summonerGo" class="btn" value="Go!" onclick="loadPlayer()"> -->
+			</form>
+		</div>
 
-			<div class="col-lg-12 hidden" id="recChamps">
-				<h1>Recommended champions for your role</h1>
+
+		<div class="results">
+
+			<div class="hidden" id="recChamps">
+				<h1>Recommended champions for you</h1>
 				<ul class="portraitsContainer" id="recChampsContainer">
 
 				</ul>
 			</div>
 		</div>
+		<div class="results">
+
+			<div class="hidden" id="ownedChamps">
+				<h1>Champions that you have received chests for</h1>
+				<ul class="portraitsContainer" id="ownedChampsContainer">
+
+				</ul>
 			</div>
-			</div>
-	</div>
+		</div>
 	</div>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
 	<script src="js/script.js"></script>

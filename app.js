@@ -1,32 +1,33 @@
+var express       = require('express');
+var app           = express();
+var path          = require("path");
+var https         = require('https')
+
+// Load environment variables
 require('dotenv').config();
-var express = require('express');
-var app   = express();
-var path  = require("path");
-var https = require('https')
-var championRoles = require('./champion_roles.json')
-
 var api_key = process.env.LOL_API_KEY;
-var port = process.env.PORT;
+var port    = process.env.PORT;
 
-var rank = ['S+', 'S', 'S-', 'A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-'];
+// Defined values
+var rank  = ['S+', 'S', 'S-', 'A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-'];
 var roles = ['top', 'jungle', 'mid', 'bot', 'support'];
+var championRoles = require('./champion_roles.json')
 
 var DEBUG = false;
 
+// Main page
 app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname+ '/public/index.html'));
 });
 
+// API queries
 app.get('/info/:region/:username/:role*?', function (req, res) {
-  res.header('Access-Control-Allow-Origin', '*');
-  var region = req.params.region;
-  var username = req.params.username;
-  var role = req.params.role;
-  if (req.params.role == undefined) {   // || !(req.params.role in championRoles)
+  // res.header('Access-Control-Allow-Origin', '*');
+  if (req.params.role == undefined) {
     req.params.role = 'all';
   }
-  console.log("region = " + region + " || user = " + username + " || role = " + role)
+  console.log('Info request with params ' + req.params);
   getSummonerId(req.params, res);
 })
 
@@ -35,6 +36,9 @@ app.listen(port, function () {
   console.log('App started listening on port ' + port);
 });
 
+/**
+Preforms a GET request to the url specified and calls success or error with the result
+**/
 function makeRequest(url, success, error) {
   https.get(url,
     (response) => {
@@ -60,6 +64,8 @@ function makeRequest(url, success, error) {
     });
 }
 
+
+/****** Preform additional quries to assemble information ******/
 
 function getSummonerId(params, res) {
   var summoner_name = params.username;
@@ -120,6 +126,10 @@ function filterChamptions(data, res) {
   displayData(data, res);
 }
 
+
+/** 
+Responds with the assembled information 
+**/
 function displayData(data, res) {
   if (DEBUG) {
     data.has_chest = data.has_chest.map(function (c) {return [c.name, c.highest_grade, c.champion_points]});
@@ -133,6 +143,8 @@ function displayData(data, res) {
   })
 
 }
+
+/****** Helper Functions ******/
 
 function combineChampionInfo(championInfo, championMasteryList) {
   var championMastery = championMasteryList.find(function(c) {
