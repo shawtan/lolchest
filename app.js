@@ -47,6 +47,7 @@ function makeRequest(url, success, error) {
       // console.log('statusCode: ', response.statusCode);
       // console.log('headers: ', res.headers);
       if (response.statusCode != 200) {
+        console.log('Error: ' + response.statusCode);
         error({"error" : "status code " + response.statusCode});
         return;
       }
@@ -62,6 +63,7 @@ function makeRequest(url, success, error) {
       });
 
     }).on('error', (e) => {
+      console.log('Error: ' + e);
       error({"error" : e});
     });
 }

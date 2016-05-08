@@ -9,7 +9,7 @@ function loadPlayer() {
 	$.get(url, 
 		function (data, status) {
 			if (data.error != undefined) {
-				$('#formError').html('An error has occured. ('+data.error+')');
+				$('#formError').html('An error has occured. ' + clarifyError(data.error));
 				$('#formError').removeClass('hidden');
 				return;	
 			}
@@ -29,6 +29,18 @@ function loadPlayer() {
 			   scrollTop: $(".results").offset().top
 			});
 		});
+}
+
+function clarifyError(error) {
+	console.log('Request to Riot servers has encountered error ' + error);
+	if (error.contains('404')) {
+		return 'Summoner not found!';
+	} else if (error.contains('500')) {
+		return 'Something bad happened!';
+	} else if (error.contains('429')) {
+		return 'Please try again later.';
+	}
+	return "";
 }
 
 function displaySplash(champ) {
