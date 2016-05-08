@@ -25,12 +25,11 @@ app.get('/', function (req, res) {
 
 // API queries
 app.post('/info/:region/:username/:role*?', function (req, res) {
-  console.log(req.hostname);
   // res.header('Access-Control-Allow-Origin', '*');
   if (req.params.role == undefined) {
     req.params.role = 'all';
   }
-  console.log('Info request for ' + req.params.username + ' in ' + req.params.region);
+  console.log('Info request for ' + req.params.username + ' in ' + req.params.region + ' for role ' + req.params.role);
   getSummonerId(req.params, res);
 })
 

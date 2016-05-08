@@ -20,20 +20,28 @@ function loadPlayer() {
 		success: function (data) {
 			// querying = false;
 			if (data.error != undefined) {
-				showError(clarifyError(error));
+				showError(clarifyError(data.error));
 				return;	
 			}
 
 			$('#formError').addClass('hidden');
 
-			$("#recChampsContainer").html(displayChamps(data.recommended, true));
-			$("#ownedChampsContainer").html(displayChamps(data.has_chest, false));
+			var showRec = (data.recommended.length > 0);
+			var showOwned = (data.has_chest.length > 0);
 
-			$('#recChamps').fadeIn('slow');
-			$('#ownedChamps').fadeIn(800);
-
-			$('#recChamps').removeClass('hidden');
-			$('#ownedChamps').removeClass('hidden');
+			if (showRec) {
+				$("#recChampsContainer").html(displayChamps(data.recommended, true));
+				$('#recChamps').fadeIn('slow');
+				$('#recChamps').removeClass('hidden');
+			}
+			if (showOwned) {
+				$("#ownedChampsContainer").html(displayChamps(data.has_chest, false));
+				$('#ownedChamps').fadeIn(800);
+				$('#ownedChamps').removeClass('hidden');
+			}
+			if (!showRec && !showOwned) {
+				showError('No information was found. Sorry!');
+			}
 
 			$('html,body').animate({
 			   scrollTop: $(".results").offset().top
@@ -62,7 +70,7 @@ function clarifyError(error) {
 	} else if (error.indexOf('429') !== -1) {
 		return 'Please try again later.';
 	}
-	return "";
+	return "Sorry!";
 }
 
 function displaySplash(champ) {
