@@ -11,9 +11,23 @@ body {
 	margin-right: auto;
 }
 
+@media (min-width: 980px) {
+	.container {
+		width: 980px;
+	}
+}
+
 .logo img {
 	max-width: 100%;
 	height: auto;
+}
+
+.icon-chest {
+	max-height: 40px;
+	width: auto;
+	position: relative;
+	padding: 0 15px 0 5px;
+	top: 10px;
 }
 
 .summonerInput {
@@ -31,22 +45,23 @@ body {
 	width: 60%;
 	float: left;
 	text-align: center;
-	/*margin-right: 10px;*/
-	padding: 15px 0;
+	padding: 5px 0;
 	height: 3em;
+	font-size: 120%;
 }
 
 .summonerInput select {
-	/*margin-left: 5px;*/
 	padding: 15px 0;
 	height: 3em;
 	width: 19%;
 	text-align: center;
+	font-size: 120%;
 }
 
 .summonerInput button {
 	width: 100%;
-	padding: 15px;
+	height: 3em;
+	font-size: 120%;
 }
 
 .summonerInput div.error {
@@ -61,31 +76,33 @@ body {
 @media (max-width: 600px) {
 	.summonerInput {
 		font-size: 80%;
+		margin: 0px;
+		padding: 10px;
 	}
 	.summonerInput input[type="text"]{
 		padding: 5px 0;
+		font-size: 150%;
 	}
 	.summonerInput select {
 		padding: 5px 0;
+		font-size: 150%;
 	}
 	.summonerInput button {
 		padding: 5px;
+		font-size: 150%;
 	}
 }
-
-
 
 .results {
 	width: 100%;
 	display: inline-block;
-	border-radius: 20px;
 	text-align: center;
 }
 
 .championSplash {
 	position: relative;
 	width: 90%;
-	/*padding: 0 50px 50px 50px;*/
+	margin: 0 auto;
 }
 
 .championSplash img{
@@ -104,14 +121,14 @@ body {
 	text-shadow: 2px 2px #000;
 }
 
-span.championName {
+.championSplash span.championName {
 	font-size: 400%;
 	display: inline-block;
 }
 
 @media (max-width: 600px) {
-	span.championName {
-		font-size: 150%;
+	.championSplash span.championName {
+		font-size: 200%;
 	}
 	.championSplash div {
 		left: 20px;
@@ -119,23 +136,13 @@ span.championName {
 }
 
 #recChampsContainer {
-	/*width: 610px;*/
 	margin: auto;
 }
 
-div.portraitsContainer {
-	/*display: inline-block;*/
-	padding: auto;
-}
-
-.portraitsContainer li{
-	list-style: none;
-	padding: 0px;
+.portraitsContainer div.championPortrait{
 	float: left;
-	height: 120px;
 	width: 20%;
-	position: relative;
-	display: inline;
+	display: inline-block;
 }
 
 .portraitsContainer img {
@@ -144,30 +151,35 @@ div.portraitsContainer {
 	border: solid 1px white;
 }
 
-#ownedChampsContainer li {
-
-	height: 80px;
-	width: 80px;
+#ownedChampsContainer div.championPortrait {
+	max-width: 120px;
 }
 
-.portraitsContainer li:hover span.championGrade {
+div.championPortrait {
+	position: relative;
+    background-color: black;
+}
+
+div.championPortrait:hover img, div.championPortrait:focus img {
+	opacity: 0.7;
+}
+
+div.championPortrait:hover span.championGrade, div.championPortrait:focus span.championGrade {
 	opacity: 1;
 }
 
-.championProfile span{
-	float:left;
-}
-
 span.championGrade {
-	background: rgba(0,0,0,0.3);
 	color: white;
-	cursor: pointer;
-	display: table;
-	height: 120px;
+	text-align: center;
+	top: 50%;
+	-ms-transform: translateY(-50%);
+	-webkit-transform: translateY(-50%);
+	transform: translateY(-50%);
+	font-size: 200%;
+	position: absolute; 
+
 	left: 0;
-	position: absolute;
-	top: 0;
-	width: 120px;
+	width: 100%;
 	opacity: 0;
 	-webkit-transition: opacity 500ms;
 	-moz-transition: opacity 500ms;
@@ -175,14 +187,15 @@ span.championGrade {
 	transition: opacity 500ms;
 }
 
-span.championGrade span {
-	display: table-cell;
-	text-align: center;
-	vertical-align: middle;
-	font-size: 200%;
+.championPortrait .championName {
+	display: block;
 }
+
 @media (max-width: 600px) {
-	span.championGrade span {
+	span.championGrade {
+		font-size: 150%;
+	}
+	body {
 		font-size: 80%;
 	}
 }

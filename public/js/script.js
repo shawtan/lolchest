@@ -20,10 +20,15 @@ function loadPlayer() {
 
 			$('#formError').addClass('hidden');
 
-			$("#ownedChampsContainer").html(displayChamps(data.has_chest, false));
-			$('#ownedChamps').removeClass('hidden');
 			$("#recChampsContainer").html(displayChamps(data.recommended, true));
+			$("#ownedChampsContainer").html(displayChamps(data.has_chest, false));
+
+			$('#recChamps').fadeIn('slow');
+			$('#ownedChamps').fadeIn(800);
+
 			$('#recChamps').removeClass('hidden');
+			$('#ownedChamps').removeClass('hidden');
+
 			$('html,body').animate({
 			   scrollTop: $(".results").offset().top
 			});
@@ -50,10 +55,11 @@ function displayChamps(json, showSplash) {
 		if (showSplash && i==0) {
 			displaySplash(champs[i]);
 		} else {
-		champHtml += "<li class=\"championPortrait\" title=\"" + champs[i].name + "\">"
+		champHtml += "<div class=\"championPortrait\" title=\"" + champs[i].name + "\">"
 			+ "<img src=\"http://ddragon.leagueoflegends.com/cdn/6.9.1/img/champion/" + champs[i].image.full + "\"/>"
-			+ "<span class=\"championGrade\"><span>"+champs[i].highest_grade + (showSplash?("<br>" + champs[i].champion_points):"")+"</span></span>"
-			+ "</li>";
+			+ "<span class=\"championGrade\">"+champs[i].highest_grade + (showSplash?("<br>" + champs[i].champion_points):"")+"</span>"
+			+ (showSplash?"<span class=\"championName\">"+champs[i].name+"</span>":"")
+			+ "</div>";
 		}
 	}
 	return champHtml;
