@@ -24,7 +24,8 @@ app.get('/', function (req, res) {
 });
 
 // API queries
-app.get('/info/:region/:username/:role*?', function (req, res) {
+app.post('/info/:region/:username/:role*?', function (req, res) {
+  console.log(req.hostname);
   // res.header('Access-Control-Allow-Origin', '*');
   if (req.params.role == undefined) {
     req.params.role = 'all';
@@ -35,13 +36,14 @@ app.get('/info/:region/:username/:role*?', function (req, res) {
 
 
 app.listen(port, function () {
-  console.log('App started listening on port ' + port);
+  console.log('App started at localhost:' + port);
 });
 
 /**
 Preforms a GET request to the url specified and calls success or error with the result
 **/
 function makeRequest(url, success, error) {
+  // console.log(url);
   https.get(url,
     (response) => {
       // console.log('statusCode: ', response.statusCode);
@@ -78,11 +80,14 @@ function getSummonerId(params, res) {
   makeRequest(url, 
     (data) => {
         data = JSON.parse(data);
-        getChampionMastery({
-          params: params,
-          summoner_id: data[summoner_name].id,
-          summoner_name: data[summoner_name].name,
-          }, res);
+        for (var user in data) {
+          getChampionMastery({
+            params: params,
+            summoner_id: data[user].id,
+            summoner_name: data[user].name,
+            }, res);
+          break;
+        }
     },
     (error) => {
       res.json(error);
@@ -101,7 +106,7 @@ function getChampionMastery(data, res) {
           summoner_name: data['summoner_name'],
           champions: mastery_info, 
           mastery_info: mastery_info,
-          }, res);
+        }, res);
     },
     (error) => {
       res.json(error);

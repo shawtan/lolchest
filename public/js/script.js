@@ -7,16 +7,20 @@ function loadPlayer() {
 
 	var region = $('#regionSelect').val();
 	var username = $('#summonerName').val();
-	username = username.replace(/ /g, '');
+	username = encodeURIComponent(username.replace(/ /g, ''));
 	var role = $('#roleSelect').val();
 	var url = '/info/'+region+'/'+username+'/'+role;
-	querying = true;
-	$.get(url, 
-		function (data, status) {
-			querying = false;
+	// $.get(url, 
+	$.ajax({
+		type: "post",
+		url: url,
+	    beforeSend: function() {	
+	    	querying = true;
+	    },
+		success: function (data) {
+			// querying = false;
 			if (data.error != undefined) {
-				$('#formError').html('An error has occured. ' + clarifyError(data.error));
-				$('#formError').removeClass('hidden');
+				showError(clarifyError(error));
 				return;	
 			}
 
@@ -34,11 +38,23 @@ function loadPlayer() {
 			$('html,body').animate({
 			   scrollTop: $(".results").offset().top
 			});
-		});
+		},
+	    error: function (jqXHR, textStatus, errorThrown) {
+	    	showError(clarifyError(jqXHR.statusCode().status+': '+jqXHR.responseText));
+	    },
+	    complete: function() {
+	    	querying = false;
+	    }
+	});
+}
+
+function showError(error) {
+	$('#formError').html('An error has occured. ' + error);
+	$('#formError').removeClass('hidden');	
 }
 
 function clarifyError(error) {
-	console.log('Request to Riot servers has encountered error ' + error);
+	console.log(error);
 	if (error.indexOf('404') !== -1) {
 		return 'Summoner not found!';
 	} else if (error.indexOf('500') !== -1) {
