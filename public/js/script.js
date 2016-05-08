@@ -36,7 +36,6 @@ function displaySplash(champ) {
 		+ "<div><span class=\"championName\">"+champ.name+"</span><br>"
 		+ "Your Best Rank: "+champ.highest_grade+"<br>Mastery Points: "+champ.champion_points+"</span>"
 		+"</div>";
-	console.log(champHtml);
 	$('.championSplash').html(champHtml);
 }
 

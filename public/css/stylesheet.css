@@ -1,18 +1,19 @@
 body {
-    background-color: #000;
-    color: rgb(240,230,200);
+	background-color: #000;
+	color: rgb(240,230,200);
 	font-family: 'Dosis', sans-serif;
-    padding-bottom: 50px;
+	padding-bottom: 50px;
 }
 
 .container {
-	width: 900px;
+	width: 90%;
 	margin-left: auto;
 	margin-right: auto;
 }
 
 .logo img {
-	width: 900px;
+	max-width: 100%;
+	height: auto;
 }
 
 .summonerInput {
@@ -30,15 +31,17 @@ body {
 	width: 60%;
 	float: left;
 	text-align: center;
-	margin-right: 10px;
-	padding: 15px;
+	/*margin-right: 10px;*/
+	padding: 15px 0;
+	height: 3em;
 }
 
 .summonerInput select {
-	margin-left: 5px;
-	padding: 15px;
+	/*margin-left: 5px;*/
+	padding: 15px 0;
 	height: 3em;
-	width: 18%;
+	width: 19%;
+	text-align: center;
 }
 
 .summonerInput button {
@@ -54,16 +57,35 @@ body {
 	text-align: center;
 }
 
+
+@media (max-width: 600px) {
+	.summonerInput {
+		font-size: 80%;
+	}
+	.summonerInput input[type="text"]{
+		padding: 5px 0;
+	}
+	.summonerInput select {
+		padding: 5px 0;
+	}
+	.summonerInput button {
+		padding: 5px;
+	}
+}
+
+
+
 .results {
 	width: 100%;
 	display: inline-block;
 	border-radius: 20px;
-    text-align: center;
+	text-align: center;
 }
 
 .championSplash {
 	position: relative;
-	padding: 0 50px;
+	width: 90%;
+	/*padding: 0 50px 50px 50px;*/
 }
 
 .championSplash img{
@@ -74,22 +96,30 @@ body {
 }
 
 .championSplash div {
-   position: absolute; 
-   top: 50px; 
-   left: 100px; 
-   width: 100%; 
-   text-align: left;
-   color: #ffffff;
-   text-shadow: 2px 2px #000;
+	position: absolute; 
+	top: 50px; 
+	left: 50px; 
+	text-align: left;
+	color: #ffffff;
+	text-shadow: 2px 2px #000;
 }
 
-span.championName{
-   font-size: 400%;
-   display: inline-block;
+span.championName {
+	font-size: 400%;
+	display: inline-block;
+}
+
+@media (max-width: 600px) {
+	span.championName {
+		font-size: 150%;
+	}
+	.championSplash div {
+		left: 20px;
+	}
 }
 
 #recChampsContainer {
-	width: 610px;
+	/*width: 610px;*/
 	margin: auto;
 }
 
@@ -103,9 +133,7 @@ div.portraitsContainer {
 	padding: 0px;
 	float: left;
 	height: 120px;
-	width: 120px;
-	color: red;
-	border: solid 1px white;
+	width: 20%;
 	position: relative;
 	display: inline;
 }
@@ -113,6 +141,7 @@ div.portraitsContainer {
 .portraitsContainer img {
 	max-width: 100%;
 	height: auto;
+	border: solid 1px white;
 }
 
 #ownedChampsContainer li {
@@ -122,7 +151,7 @@ div.portraitsContainer {
 }
 
 .portraitsContainer li:hover span.championGrade {
-  opacity: 1;
+	opacity: 1;
 }
 
 .championProfile span{
@@ -130,26 +159,31 @@ div.portraitsContainer {
 }
 
 span.championGrade {
-  background: rgba(0,0,0,0.3);
-  color: white;
-  cursor: pointer;
-  display: table;
-  height: 120px;
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: 120px;
-  opacity: 0;
-  -webkit-transition: opacity 500ms;
-  -moz-transition: opacity 500ms;
-  -o-transition: opacity 500ms;
-  transition: opacity 500ms;
+	background: rgba(0,0,0,0.3);
+	color: white;
+	cursor: pointer;
+	display: table;
+	height: 120px;
+	left: 0;
+	position: absolute;
+	top: 0;
+	width: 120px;
+	opacity: 0;
+	-webkit-transition: opacity 500ms;
+	-moz-transition: opacity 500ms;
+	-o-transition: opacity 500ms;
+	transition: opacity 500ms;
 }
 
 span.championGrade span {
-  display: table-cell;
-  text-align: center;
-  vertical-align: middle;
-  font-size: 200%;
+	display: table-cell;
+	text-align: center;
+	vertical-align: middle;
+	font-size: 200%;
+}
+@media (max-width: 600px) {
+	span.championGrade span {
+		font-size: 80%;
+	}
 }
 
