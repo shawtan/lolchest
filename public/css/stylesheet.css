@@ -57,8 +57,9 @@ body {
 
 .summonerInput select {
 	padding: 15px 0;
+	margin-left: 5px;
 	height: 3em;
-	width: 20%;
+	width: calc(20% - 5px);
 	text-align: center;
 	font-size: 120%;
 	float: right;
@@ -95,6 +96,7 @@ body {
 	.summonerInput select {
 		padding: 5px 0;
 		font-size: 150%;
+		margin-left: 0;
 		width: 30%;
 	}
 	.summonerInput button {
