@@ -28,6 +28,12 @@ We stored static data in JSON files. We saved the data in JSON files because Nod
 `public/index.html` is the front facing webpage.
 
 ## Backend
+### Endpoints
+`GET` requests to root `/` will serve the main webpage.
+
+`POST` requests to `/info/region/summoner_name/role` gives a JSON response containing the recommended champions for the player. Detailed response information is outlined below under `displayData`.
+
+
 ### Static JSON Files
 `champion_roles.json` Declares all the champions by role. 
 
