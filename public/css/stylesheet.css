@@ -18,6 +18,10 @@ body {
 	}
 }
 
+.section {
+	padding:  20px;
+}
+
 .logo img {
 	max-width: 100%;
 	height: auto;
@@ -39,7 +43,7 @@ body {
 
 	color: rgb(9,26,70);
 	/*margin: 20px;*/
-	padding: 20px;
+	/*padding: 20px;*/
 	border-radius: 5px;
 	font-size: 120%;
 }
@@ -204,7 +208,6 @@ span.championGrade {
 }
 
 .about {
-	padding:  20px;
 	background-color: #111;
 	/*margin: 10px;*/
 	border-radius: 5px;
