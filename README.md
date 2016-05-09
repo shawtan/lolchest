@@ -13,6 +13,8 @@ Chest Finder recommends champions that you can get a chest in based on your mast
 # Technical Overview
 The purpose of our app is to provide recommended champions with the highest probability of getting a chest in, as well as display all the champions that have already received a chest in.
 
+To determine the recommended champions for the player, we looked at the player's past performance on different champions. Based on the highest grade (S+ to D-) and the mastery points the player had for the champion we could estimate how well the player plays a specific champion. This information is used to predict the top six champions for a player to attempt to get a chest on.
+
 The app is built on **Node.js**. We chose Node.js because it does not take a lot of code to get started. We also liked the appeal of using one language for the entire application. We did not need any databases as all data is processed from queries to Riot's API. 
 
 We used **Express** because is a minimal and flexible Node.js web application framework that allows us to program the server side. Express serves request and handles the champion mastery data analysis.
@@ -81,13 +83,15 @@ Get an API key from the [Riot Games Developer](https://developer.riotgames.com) 
 Download and Install [Node.js](https://nodejs.org/en/).
 
 ## Configuration
-Define the `RIOT_API_KEY` environment variable to be your Riot API key.
-
-Define your `PORT` environment variable.
-
 Install dependencies
 
     npm install
+### Environment Variables
+Define `RIOT_API_KEY` to be your Riot API key.
+
+Define `PORT` to be the port the server should run at.
+
+Or create a `.env` file to allow `dotenv` to define the environment variables for you. See `sample.env`.
 
 ## Build
 Build the server
