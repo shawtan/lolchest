@@ -100,3 +100,6 @@ You will be able to see the completed project at localhost:PORT.
 It was difficult for us to layout and display all the information in a user intuitive way using CSS. We were able to layout everything accordingly. The end result is a polished product that we are extremely proud of.
 
 This was our first project where we used Node.js and it was an excellent learning experience. We found that it was very easy to get an app running quickly. 
+
+# Disclaimer
+Chest Finder isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.
