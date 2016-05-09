@@ -60,7 +60,7 @@ Where
     
 
 # Frontend
-We used HTML, Java<sup>Script</sup> and CSS for the front end. We grabbed the splash images and champion icon images from [Riot Static Data API](https://developer.riotgames.com/docs/static-data).
+We used HTML, JavaScript and CSS for the front end. We grabbed the splash images and champion icon images from [Riot Static Data API](https://developer.riotgames.com/docs/static-data).
 ### script.js
 
 `loadPlayer` Grabs summoner id, role, and region from the form, sends it to our server, and gets recommended champions and champions that have already received a chest back.
