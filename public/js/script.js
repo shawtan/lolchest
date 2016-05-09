@@ -16,6 +16,7 @@ function loadPlayer() {
 		url: url,
 	    beforeSend: function() {	
 	    	querying = true;
+	    	$('#submitButton').addClass('m-progress');
 	    },
 		success: function (data) {
 			// querying = false;
@@ -52,6 +53,7 @@ function loadPlayer() {
 	    },
 	    complete: function() {
 	    	querying = false;
+	    	$('#submitButton').removeClass('m-progress');
 	    }
 	});
 }

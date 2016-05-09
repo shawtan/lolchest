@@ -43,9 +43,11 @@
 						<option value="KR">KR</option>
 					</select>
 				</div>
-				<button type="submit" class="pure-button pure-button-primary">What champion should I get a chest with?</button>
+				<div class="button pure-button pure-button-primary" id="submitButton" onclick="loadPlayer()">
+					What champion should I get a chest with?
+				</div>
 			</form>
-			<div class="error hidden" id="formError">ERROR: adfasdf</div>
+			<div class="error hidden" id="formError">ERROR!</div>
 		</div>
 
 
@@ -58,9 +60,7 @@
 				<h2>Other champions you are good at</h2>
 				<div class="portraitsContainer" id="recChampsContainer">
 				</div>
-			</div><!-- 
-		</div>
-		<div class="results section"> -->
+			</div>
 			<div class="hidden" id="ownedChamps">
 				<div>
 					<img class="icon-chest" src="rsc/Chest.jpg">
