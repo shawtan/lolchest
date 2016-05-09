@@ -1,6 +1,6 @@
 # Chest Finder
 
-Live Site: [Chest Finder](https://ancient-falls-66352.herokuapp.com/)
+Live Site: [Chest Finder](http://chestfinder.me)
 
 Created for Riot Games API Challenge 2016. We are two students from The University of Waterloo who are passionate about League of Legends. 
 
@@ -71,7 +71,7 @@ We used HTML, Java<sup>Script</sup> and CSS for the front end. We grabbed the sp
 
 # Production
 
-We published our web application on Heroku at [Chest Finder.](https://ancient-falls-66352.herokuapp.com/) We chose Heroku because it is free and easy to deploy to. Heroku also makes it easy to scale up the application at a later date.
+We published our web application on Heroku at [Chest Finder.](http://chestfinder.me) We chose Heroku because it is free and easy to deploy to. Heroku also makes it easy to scale up the application at a later date.
 
 # Installation 
 
