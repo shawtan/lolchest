@@ -25,7 +25,7 @@ We stored static data in JSON files. We saved the data in JSON files because Nod
 
 `public/index.html` is the front facing webpage.
 
-## Project Architecture
+## Backend
 ### Static JSON Files
 `champion_roles.json` Declares all the champions by role. 
 
