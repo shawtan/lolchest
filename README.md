@@ -17,7 +17,7 @@ To determine the recommended champions for the player, we looked at the player's
 
 The app is built on **Node.js**. We chose Node.js because it does not take a lot of code to get started. We also liked the appeal of using one language for the entire application. We did not need any databases as all data is processed from queries to Riot's API. 
 
-We used **Express** because is a minimal and flexible Node.js web application framework that allows us to program the server side. Express serves request and handles the champion mastery data analysis.
+We used **Express** because it is a minimal and flexible Node.js web application framework that allows us to program the server side. Express serves request and handles the champion mastery data analysis.
 
 The main webpage is built using HTML, JavaScript and CSS. The jQuery library was used for transitions and server queries.
 
@@ -93,11 +93,13 @@ Install dependencies
 
     npm install
 ### Environment Variables
+Navigate to `sample.env` and rename it to `.env`.
+
+Open the `.env` file and define the following.
+
 Define `RIOT_API_KEY` to be your Riot API key.
 
 Define `PORT` to be the port the server should run at.
-
-Or create a `.env` file to allow `dotenv` to define the environment variables for you. See `sample.env`.
 
 ## Build
 Build the server
