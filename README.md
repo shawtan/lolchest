@@ -27,6 +27,14 @@ We stored static data in JSON files. We saved the data in JSON files because Nod
 
 `public/index.html` is the front facing webpage.
 
+Chest Finder is dynamic to various screen sizes. It works even on mobile devices. The resolutions that we tested on are:
+
+*2560 x 1440
+*1920 x 1080
+*1280 x 720
+*800 x 600
+*320 x 480
+
 ## Backend
 ### Endpoints
 `GET` requests to root `/` will serve the main webpage.
