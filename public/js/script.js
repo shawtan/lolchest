@@ -10,11 +10,11 @@ function loadPlayer() {
 	username = encodeURIComponent(username.replace(/ /g, ''));
 	var role = $('#roleSelect').val();
 	var url = '/info/'+region+'/'+username+'/'+role;
-	// $.get(url, 
+	// $.get(url,
 	$.ajax({
 		type: "post",
 		url: url,
-	    beforeSend: function() {	
+	    beforeSend: function() {
 	    	querying = true;
 	    	$('#submitButton').addClass('m-progress');
 	    },
@@ -22,7 +22,7 @@ function loadPlayer() {
 			// querying = false;
 			if (data.error != undefined) {
 				showError(clarifyError(data.error));
-				return;	
+				return;
 			}
 
 			$('#formError').addClass('hidden');
@@ -31,12 +31,12 @@ function loadPlayer() {
 			var showOwned = (data.has_chest.length > 0);
 
 			if (showRec) {
-				$("#recChampsContainer").html(displayChamps(data.recommended, true));
+				$("#recChampsContainer").html(displayChamps(data.recommended, true, data.version));
 				$('#recChamps').fadeIn('slow');
 				$('#recChamps').removeClass('hidden');
 			}
 			if (showOwned) {
-				$("#ownedChampsContainer").html(displayChamps(data.has_chest, false));
+				$("#ownedChampsContainer").html(displayChamps(data.has_chest, false, data.version));
 				$('#ownedChamps').fadeIn(800);
 				$('#ownedChamps').removeClass('hidden');
 			}
@@ -60,7 +60,7 @@ function loadPlayer() {
 
 function showError(error) {
 	$('#formError').html('An error has occured. ' + error);
-	$('#formError').removeClass('hidden');	
+	$('#formError').removeClass('hidden');
 }
 
 function clarifyError(error) {
@@ -84,7 +84,7 @@ function displaySplash(champ) {
 	$('.championSplash').html(champHtml);
 }
 
-function displayChamps(json, showSplash) {
+function displayChamps(json, showSplash, version) {
 	champs = json;
 	if (champs.length == 0) {
 		return "<div>We couldn't find any data. Sorry!</div>";
@@ -96,7 +96,7 @@ function displayChamps(json, showSplash) {
 			displaySplash(champs[i]);
 		} else {
 		champHtml += "<div class=\"championPortrait\" title=\"" + champs[i].name + "\">"
-			+ "<img src=\"http://ddragon.leagueoflegends.com/cdn/6.9.1/img/champion/" + champs[i].image.full + "\"/>"
+			+ "<img src=\"http://ddragon.leagueoflegends.com/cdn/" + version + "/img/champion/" + champs[i].image.full + "\"/>"
 			+ "<span class=\"championGrade\">"+champs[i].champion_points + "</span>"
 			+ (showSplash?"<span class=\"championName\">"+champs[i].name+"</span>":"")
 			+ "</div>";

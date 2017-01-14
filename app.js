@@ -76,7 +76,7 @@ function getSummonerId(params, res) {
   var summoner_name = params.username;
   var region = params.region;
   var url = 'https://'+region+'.api.pvp.net/api/lol/'+region+'/v1.4/summoner/by-name/'+summoner_name+'?api_key='+api_key;
-  makeRequest(url, 
+  makeRequest(url,
     (data) => {
         data = JSON.parse(data);
         for (var user in data) {
@@ -96,14 +96,14 @@ function getSummonerId(params, res) {
 function getChampionMastery(data, res) {
   var region = data.params.region;
   var url = 'https://'+region+'.api.pvp.net/championmastery/location/'+regions[region]+'/player/'+data['summoner_id']+'/champions?api_key='+api_key;
-    makeRequest(url, 
+    makeRequest(url,
     (mastery_info) => {
         mastery_info = JSON.parse(mastery_info);
         addChampionInfo({
           params: data.params,
           summoner_id: data['summoner_id'],
           summoner_name: data['summoner_name'],
-          champions: mastery_info, 
+          champions: mastery_info,
           mastery_info: mastery_info,
         }, res);
     },
@@ -115,7 +115,7 @@ function getChampionMastery(data, res) {
 function addChampionInfo(data, res) {
   var region = data.params.region.toLowerCase();
   url = 'https://global.api.pvp.net/api/lol/static-data/'+region+'/v1.2/champion?dataById=false&champData=image&api_key='+api_key;
-  makeRequest(url, 
+  makeRequest(url,
     (champlist) => {
         champlist = JSON.parse(champlist).data;
         var champArray = [];
@@ -124,6 +124,21 @@ function addChampionInfo(data, res) {
         }
         data.champions = champArray;
         data.champions.sort(compareChampion);
+        getVersion(data, res);
+    },
+    (error) => {
+      res.json(error);
+    });
+}
+
+function getVersion(data, res) {
+  var region = data.params.region;
+  var url = 'https://global.api.pvp.net/api/lol/static-data/'+region+'/v1.2/versions?api_key='+api_key;
+
+  makeRequest(url,
+    (versions) => {
+        versions = JSON.parse(versions);
+        data.version = versions[0];
         filterChamptions(data, res);
     },
     (error) => {
@@ -138,8 +153,8 @@ function filterChamptions(data, res) {
 }
 
 
-/** 
-Responds with the assembled information 
+/**
+Responds with the assembled information
 **/
 function displayData(data, res) {
   if (DEBUG) {
@@ -151,6 +166,7 @@ function displayData(data, res) {
     "summoner_id":    data.summoner_id,
     "has_chest":      data.has_chest,
     "recommended":    data.recommended,
+    "version":        data.version,
   })
 
 }
