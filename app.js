@@ -1,21 +1,21 @@
-var express       = require('express');
-var app           = express();
-var path          = require("path");
-var https         = require('https');
+const express       = require('express');
+const app           = express();
+const path          = require("path");
+const https         = require('https');
 
 // Load environment variables
 require('dotenv').config();
-var api_key = process.env.LOL_API_KEY;
-var port    = process.env.PORT;
+const api_key = process.env.LOL_API_KEY;
+const port    = process.env.PORT;
 
 // Defined values
-var rank  = ['S+', 'S', 'S-', 'A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-', 'No Rank'];
-var roles = ['top', 'jungle', 'mid', 'bot', 'support'];
-var championRoles = require('./champion_roles.json');
-var regions = require('./regions.json');
+const rank  = ['S+', 'S', 'S-', 'A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-', 'No Rank'];
+const roles = ['top', 'jungle', 'mid', 'bot', 'support'];
+const championRoles = require('./champion_roles.json');
+const regions = require('./regions.json');
 
-var NUMBER_CHAMPS_TO_RECOMMEND = 6;
-var DEBUG = false;
+const NUMBER_CHAMPS_TO_RECOMMEND = 6;
+const DEBUG = false;
 
 // Main page
 app.use(express.static(path.join(__dirname, 'public')));
@@ -24,8 +24,7 @@ app.get('/', function (req, res) {
 });
 
 // API queries
-app.post('/info/:region/:username/:role*?', function (req, res) {
-  // res.header('Access-Control-Allow-Origin', '*');
+app.get('/info/:region/:username/:role*?', function (req, res) {
   if (req.params.role == undefined) {
     req.params.role = 'all';
   }
@@ -53,7 +52,7 @@ function makeRequest(url, success, error) {
         return;
       }
 
-      var data = '';
+      const data = '';
 
       response.on('data', (d) => {
         data += d;
@@ -73,13 +72,13 @@ function makeRequest(url, success, error) {
 /****** Preform additional quries to assemble information ******/
 
 function getSummonerId(params, res) {
-  var summoner_name = params.username;
-  var region = params.region;
-  var url = 'https://'+region+'.api.pvp.net/api/lol/'+region+'/v1.4/summoner/by-name/'+summoner_name+'?api_key='+api_key;
+  const summoner_name = params.username;
+  const region = params.region;
+  const url = 'https://'+region+'.api.pvp.net/api/lol/'+region+'/v1.4/summoner/by-name/'+summoner_name+'?api_key='+api_key;
   makeRequest(url,
     (data) => {
         data = JSON.parse(data);
-        for (var user in data) {
+        for (const user in data) {
           getChampionMastery({
             params: params,
             summoner_id: data[user].id,
@@ -94,8 +93,8 @@ function getSummonerId(params, res) {
 }
 
 function getChampionMastery(data, res) {
-  var region = data.params.region;
-  var url = 'https://'+region+'.api.pvp.net/championmastery/location/'+regions[region]+'/player/'+data['summoner_id']+'/champions?api_key='+api_key;
+  const region = data.params.region;
+  const url = 'https://'+region+'.api.pvp.net/championmastery/location/'+regions[region]+'/player/'+data['summoner_id']+'/champions?api_key='+api_key;
     makeRequest(url,
     (mastery_info) => {
         mastery_info = JSON.parse(mastery_info);
@@ -113,13 +112,13 @@ function getChampionMastery(data, res) {
 }
 
 function addChampionInfo(data, res) {
-  var region = data.params.region.toLowerCase();
+  const region = data.params.region.toLowerCase();
   url = 'https://global.api.pvp.net/api/lol/static-data/'+region+'/v1.2/champion?dataById=false&champData=image&api_key='+api_key;
   makeRequest(url,
     (champlist) => {
         champlist = JSON.parse(champlist).data;
-        var champArray = [];
-        for (var championInfo in champlist) {
+        const champArray = [];
+        for (const championInfo in champlist) {
           champArray.push(combineChampionInfo(champlist[championInfo],data.mastery_info));
         }
         data.champions = champArray;
@@ -132,8 +131,8 @@ function addChampionInfo(data, res) {
 }
 
 function getVersion(data, res) {
-  var region = data.params.region;
-  var url = 'https://global.api.pvp.net/api/lol/static-data/'+region+'/v1.2/versions?api_key='+api_key;
+  const region = data.params.region;
+  const url = 'https://global.api.pvp.net/api/lol/static-data/'+region+'/v1.2/versions?api_key='+api_key;
 
   makeRequest(url,
     (versions) => {
@@ -174,11 +173,11 @@ function displayData(data, res) {
 /****** Helper Functions ******/
 
 function combineChampionInfo(championInfo, championMasteryList) {
-  var championMastery = championMasteryList.find(function(c) {
+  const championMastery = championMasteryList.find(function(c) {
     return c.championId == championInfo.id;
   });
 
-  var result = {
+  const result = {
       'name'          : championInfo.name,
       'title'         : championInfo.title,
       'key'           : championInfo.key,
@@ -215,8 +214,8 @@ function championRoleMatches(champion, role) {
 
 function compareChampion(c1, c2) {
   // return c2.champion_points - c1.champion_points;
-  var score1 = c1.highest_grade;
-  var score2 = c2.highest_grade;
+  const score1 = c1.highest_grade;
+  const score2 = c2.highest_grade;
   if (score1 == null && score2 == null || rank.indexOf(score1) == rank.indexOf(score2)) {
     // Compare mastery points
     if (c1.champion_points == c2.champion_points) {
