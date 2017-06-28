@@ -4,7 +4,9 @@ var path          = require("path");
 var https         = require('https');
 
 // Load environment variables
-require('dotenv').config();
+if (process.env.NODE_ENV === 'development') {
+  require('dotenv').config();
+}
 var api_key = process.env.LOL_API_KEY;
 var port    = process.env.PORT;
 
