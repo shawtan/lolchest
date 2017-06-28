@@ -59,10 +59,10 @@ Chest Finder is dynamic to various screen sizes. It works even on mobile devices
 
 `displayData` Responds to calls with the assembled json file. A sample JSON file call that would be constructed will look like this.
     
-    summoner_name: 			string
-    summoner_id: 			int
-    has_chest: 				champion_info[]
-    recommended: 			champion_info[]
+    summoner_name:                      string
+    summoner_id:                        int
+    has_chest:                          champion_info[]
+    recommended:                        champion_info[]
 
 Where
 
@@ -70,8 +70,8 @@ Where
 		name: 				string
 		title: 				string
 		key: 				string
-		highest_grade: 		string
-		champion_points: 	int
+		highest_grade: 			string
+		champion_points: 		int
 		image: 				imageDTO
     
 
