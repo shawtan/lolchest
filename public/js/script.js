@@ -10,9 +10,9 @@ function loadPlayer() {
 	username = encodeURIComponent(username.replace(/ /g, ''));
 	var role = $('#roleSelect').val();
 	var url = '/info/'+region+'/'+username+'/'+role;
-	// $.get(url,
+
 	$.ajax({
-		type: "post",
+		type: "get",
 		url: url,
 	    beforeSend: function() {
 	    	querying = true;
