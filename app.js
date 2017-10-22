@@ -28,6 +28,7 @@ app.get('/info/:region/:username/:role*?', function (req, res) {
   if (req.params.role == undefined) {
     req.params.role = 'all';
   }
+  req.params.region = regions[req.params.region];
   console.log('Info request for ' + req.params.username + ' in ' + req.params.region + ' for role ' + req.params.role);
   getSummonerId(req.params, res);
 })
@@ -52,7 +53,7 @@ function makeRequest(url, success, error) {
         return;
       }
 
-      const data = '';
+      let data = '';
 
       response.on('data', (d) => {
         data += d;
@@ -74,15 +75,17 @@ function makeRequest(url, success, error) {
 function getSummonerId(params, res) {
   const summoner_name = params.username;
   const region = params.region;
-  const url = 'https://'+region+'.api.pvp.net/api/lol/'+region+'/v1.4/summoner/by-name/'+summoner_name+'?api_key='+api_key;
+  const url = `https://${region}.api.riotgames.com/lol/summoner/v3/summoners/by-name/${summoner_name}?api_key=${api_key}`
+
   makeRequest(url,
     (data) => {
         data = JSON.parse(data);
+        const {id, name} = data;
         for (const user in data) {
           getChampionMastery({
-            params: params,
-            summoner_id: data[user].id,
-            summoner_name: data[user].name,
+            params,
+            summoner_id: id,
+            summoner_name: name
             }, res);
           break;
         }
@@ -94,7 +97,8 @@ function getSummonerId(params, res) {
 
 function getChampionMastery(data, res) {
   const region = data.params.region;
-  const url = 'https://'+region+'.api.pvp.net/championmastery/location/'+regions[region]+'/player/'+data['summoner_id']+'/champions?api_key='+api_key;
+  const url = `https://${region}.api.riotgames.com/lol/champion-mastery/v3/champion-masteries/by-summoner/${data['summoner_id']}?api_key=${api_key}`;
+
     makeRequest(url,
     (mastery_info) => {
         mastery_info = JSON.parse(mastery_info);
@@ -113,7 +117,8 @@ function getChampionMastery(data, res) {
 
 function addChampionInfo(data, res) {
   const region = data.params.region.toLowerCase();
-  url = 'https://global.api.pvp.net/api/lol/static-data/'+region+'/v1.2/champion?dataById=false&champData=image&api_key='+api_key;
+  const url = `https://${region}.api.riotgames.com/lol/static-data/v3/champions?tags=image&dataById=false&api_key=${api_key}`
+
   makeRequest(url,
     (champlist) => {
         champlist = JSON.parse(champlist).data;
@@ -132,7 +137,7 @@ function addChampionInfo(data, res) {
 
 function getVersion(data, res) {
   const region = data.params.region;
-  const url = 'https://global.api.pvp.net/api/lol/static-data/'+region+'/v1.2/versions?api_key='+api_key;
+  const url = `https://${region}.api.riotgames.com/lol/static-data/v3/versions?api_key=${api_key}`
 
   makeRequest(url,
     (versions) => {
@@ -232,13 +237,3 @@ function compareChampion(c1, c2) {
     return rank.indexOf(score1) - rank.indexOf(score2);
   }
 }
-
-/*
-{"cookiesncream": {
-   "id": 38053912,
-   "name": "Cookies n Cream",
-   "profileIconId": 983,
-   "revisionDate": 1461717780000,
-   "summonerLevel": 30
-}}
-*/
