@@ -54,7 +54,8 @@ function loadPlayer() {
 	    complete: function() {
 	    	querying = false;
 	    	$('#submitButton').removeClass('m-progress');
-	    }
+	    },
+	    timeout: 5000
 	});
 }
 
