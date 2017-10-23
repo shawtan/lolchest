@@ -3,6 +3,9 @@
   "version": "3.0.0",
   "description": "",
   "main": "app.js",
+  "engines": {
+    "node": "8.x.x"
+  },
   "scripts": {
     "test": "npm run lint",
     "start": "node app.js",
