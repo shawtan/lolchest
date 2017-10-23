@@ -7,10 +7,10 @@ Preforms a GET request to the url specified and calls success or error with the 
 module.exports = (url) => {
     const options = {
         uri: url,
-        qs: {
-            api_key: api_key,
-        },
-        json: true
+        json: true,
+        headers: {
+            'X-Riot-Token': api_key,
+        }
     };
 
     return request(options);
