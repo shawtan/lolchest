@@ -1,5 +1,8 @@
+const DEBUG = false;
+
 // Load environment variables
-require('dotenv').config();
+require('dotenv').config({silent: !DEBUG});
+
 const port    = process.env.PORT;
 
 const express             = require('express');
@@ -17,7 +20,6 @@ const REGIONS = require('./regions.json');
 
 
 const NUMBER_CHAMPS_TO_RECOMMEND = 6;
-const DEBUG = false;
 
 // Main page
 app.use(express.static(path.join(__dirname, 'public')));
