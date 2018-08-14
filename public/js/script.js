@@ -77,7 +77,7 @@ function clarifyError(error) {
 }
 
 function displaySplash(champ) {
-	var url = "http://ddragon.leagueoflegends.com/cdn/img/champion/splash/" + champ.key+"_0.jpg";
+	var url = "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/" + champ.key+"_0.jpg";
 	var champHtml = "<img src=\""+url+"\">"
 		+ "<div><span class=\"championName\">"+champ.name+"</span><br>"
 		+ "Mastery Points: "+champ.champion_points+"</span>"
@@ -97,7 +97,7 @@ function displayChamps(json, showSplash, version) {
 			displaySplash(champs[i]);
 		} else {
 		champHtml += "<div class=\"championPortrait\" title=\"" + champs[i].name + "\">"
-			+ "<img src=\"http://ddragon.leagueoflegends.com/cdn/" + version + "/img/champion/" + champs[i].image.full + "\"/>"
+			+ "<img src=\"https://ddragon.leagueoflegends.com/cdn/" + version + "/img/champion/" + champs[i].image.full + "\"/>"
 			+ "<span class=\"championGrade\">"+champs[i].champion_points + "</span>"
 			+ (showSplash?"<span class=\"championName\">"+champs[i].name+"</span>":"")
 			+ "</div>";
