@@ -1,6 +1,6 @@
 # Chest Finder
 
-Live Site: [Chest Finder](http://chestfinder.me)
+Live Site: [Chest Finder](https://ancient-falls-66352.herokuapp.com)
 
 Created for Riot Games API Challenge 2016. We are two students from The University of Waterloo who are passionate about League of Legends. 
 
