@@ -127,7 +127,7 @@ function displayData({
 
 function combineChampionInfo({name, title, key, image, id}, championMasteryList) {
     const championMastery = championMasteryList.find(function(c) {
-        return c.championId === id;
+        return c.championId == key;
     });
 
     const result = {

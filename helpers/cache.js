@@ -21,18 +21,20 @@ const getStaticData = (region) => {
     console.log('Refreshing cache for', region); // eslint-disable-line no-console
     STATIC_CACHE[region] = {cached_time: NOW};
 
-    return Promise.all([getChampions(region), getVersion(region)])
+    return getVersion(region)
+        .then(() => getChampions(region))
         .then(() => STATIC_CACHE[region]);
 };
 
 const getChampions = (region) => {
-    const url = `https://${region}.api.riotgames.com/lol/static-data/v3/champions?tags=image&dataById=false`;
+    const version = STATIC_CACHE[region].version;
+    const url = `http://ddragon.leagueoflegends.com/cdn/${version}/data/en_US/champion.json`;
 
     return request(url).then(response => (STATIC_CACHE[region].champions = response.data));
 };
 
 const getVersion = (region) => {
-    const url = `https://${region}.api.riotgames.com/lol/static-data/v3/versions`;
+    const url = 'https://ddragon.leagueoflegends.com/api/versions.json';
 
     return request(url).then(versions => (STATIC_CACHE[region].version = versions[0]));
 };

@@ -77,7 +77,7 @@ function clarifyError(error) {
 }
 
 function displaySplash(champ) {
-	var url = "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/" + champ.key+"_0.jpg";
+	var url = "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/" + champ.id+"_0.jpg";
 	var champHtml = "<img src=\""+url+"\">"
 		+ "<div><span class=\"championName\">"+champ.name+"</span><br>"
 		+ "Mastery Points: "+champ.champion_points+"</span>"
