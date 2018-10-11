@@ -129,7 +129,7 @@ function displayData({
 
 function combineChampionInfo({name, title, key, image, id}, championMasteryList) {
     const championMastery = championMasteryList.find(function(c) {
-        return c.championId == key;
+        return c.championId == key; // eslint-disable-line eqeqeq
     });
 
     const result = {

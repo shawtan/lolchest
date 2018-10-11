@@ -21,7 +21,8 @@ function loadPlayer() {
 		success: function (data) {
 			// querying = false;
 			if (data.error != undefined) {
-				showError(clarifyError(data.error));
+				const error = data.error.status;
+				showError(clarifyError(error.status_code, error.message));
 				return;
 			}
 
@@ -49,7 +50,7 @@ function loadPlayer() {
 			});
 		},
 	    error: function (jqXHR, textStatus, errorThrown) {
-	    	showError(clarifyError(jqXHR.statusCode().status+': '+jqXHR.responseText));
+	    	showError(clarifyError(jqXHR.statusCode().status, jqXHR.responseText));
 	    },
 	    complete: function() {
 	    	querying = false;
@@ -64,13 +65,13 @@ function showError(error) {
 	$('#formError').removeClass('hidden');
 }
 
-function clarifyError(error) {
-	console.log(error);
-	if (error.indexOf('404') !== -1) {
+function clarifyError(statusCode, message) {
+	console.log(statusCode, message);
+	if (statusCode == 404) {
 		return 'Summoner not found!';
-	} else if (error.indexOf('500') !== -1) {
+	} else if (statusCode == 500) {
 		return 'Something bad happened!';
-	} else if (error.indexOf('429') !== -1) {
+	} else if (statusCode == 429) {
 		return 'Please try again later.';
 	}
 	return "Sorry!";
