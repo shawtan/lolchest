@@ -46,7 +46,6 @@ app.get('/info/:region/:username/:role*?', function (req, res) {
         });
 });
 
-
 app.listen(port, function () {
     DEBUG && console.log('App started at localhost:' + port); // eslint-disable-line no-console
 });
