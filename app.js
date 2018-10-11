@@ -14,7 +14,6 @@ const cache               = require('./helpers/cache');
 
 // Defined values
 const rank    = ['S+', 'S', 'S-', 'A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-', 'No Rank'];
-// const roles = ['top', 'jungle', 'mid', 'bot', 'support'];
 const CHAMPION_ROLES = require('./champion_roles.json');
 const REGIONS = require('./regions.json');
 
@@ -36,6 +35,10 @@ app.get('/info/:region/:username/:role*?', function (req, res) {
     console.log('Info request for ' + req.params.username + ' in ' + req.params.region + ' for role ' + req.params.role); // eslint-disable-line no-console
 
     getSummonerId(req.params)
+        .then(getChampionMastery)
+        .then(addChampionInfo)
+        .then(filterChampions)
+        .then(displayData)
         .then(data => res.json(data))
         .catch(err => {
             console.log('Error:', err); // eslint-disable-line no-console
@@ -55,7 +58,7 @@ const getSummonerId = (params) => {
     const url = `https://${region}.api.riotgames.com/lol/summoner/v3/summoners/by-name/${summoner_name}`;
 
     return request(url).then(({id, name}) =>
-        getChampionMastery({
+        ({
             ...params,
             summoner_id: id,
             summoner_name: name
@@ -68,7 +71,7 @@ const getChampionMastery = (data) => {
     const url = `https://${region}.api.riotgames.com/lol/champion-mastery/v3/champion-masteries/by-summoner/${data['summoner_id']}`;
 
     return request(url).then(mastery_info =>
-        addChampionInfo({
+        ({
             ...data,
             champions: mastery_info,
             mastery_info
@@ -88,7 +91,7 @@ const addChampionInfo = (data) => {
         data.champions = champArray;
         data.champions.sort(compareChampion);
         data.version = response.version;
-        return filterChampions(data);
+        return data;
     });
 };
 
@@ -99,7 +102,7 @@ const filterChampions = (data) => {
         .filter(c => championRoleMatches(c, data.role))
         .slice(0, NUMBER_CHAMPS_TO_RECOMMEND);
 
-    return displayData(data);
+    return data;
 };
 
 
