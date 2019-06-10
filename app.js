@@ -54,7 +54,7 @@ app.listen(port, function () {
 const getSummonerId = (params) => {
     const summoner_name = params.username;
     const region = params.region;
-    const url = `https://${region}.api.riotgames.com/lol/summoner/v3/summoners/by-name/${summoner_name}`;
+    const url = `https://${region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summoner_name}`;
 
     return request(url).then(({id, name}) =>
         ({
@@ -67,7 +67,7 @@ const getSummonerId = (params) => {
 
 const getChampionMastery = (data) => {
     const region = data.region;
-    const url = `https://${region}.api.riotgames.com/lol/champion-mastery/v3/champion-masteries/by-summoner/${data['summoner_id']}`;
+    const url = `https://${region}.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/${data['summoner_id']}`;
 
     return request(url).then(mastery_info =>
         ({
